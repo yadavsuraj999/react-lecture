@@ -49,7 +49,7 @@ const Users = () => {
                                         </Link>
                                     </td>
                                 </tr>
-                            })
+                            }) 
                         }
 
                     </tbody>
