@@ -1,19 +1,32 @@
+import { nanoid } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
+import { data } from "react-router-dom";
 
-export const studentSlice = createSlice({
+ const studentSlice = createSlice({
     name: "students",
     initialState: {
         list: []
     },
     reducers: {
-        addstudent: () => {
-
+        addstudent: (state, action) => {
+            state.list.push({id: nanoid(), ...action.payload})
         },
-        deletestudent: () => {
-
+        deletestudent: (state, action) => {
+            state.list = state.list.filter((std)=>{
+                return std.id !== action.payload;
+            })
         },
-        editestudent: () => {
+        editestudent: (state, action) => {
+            const {id, ...data} = action.payload
+            
+            const idx = state.list.findIndex((std)=>{
+                return std.id === id
+            })
 
+            state.list[idx] = {id, ...data}
         },
     }
 })
+
+export const {addstudent,deletestudent,editestudent} = studentSlice.actions;
+export default studentSlice.reducer;

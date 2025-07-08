@@ -1,32 +1,49 @@
-import { useState } from "react"
-import { useDispatch } from "react-redux"
-import { useNavigate } from "react-router-dom"
-import { addstudent } from "../features/students/studentSlice"
+import { useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { useNavigate, useParams } from "react-router-dom"
+import { editestudent } from "../features/students/studentSlice"
 
-const AddStudent = () => {
+const Editstudent = () => {
     const [input, setInput] = useState({
-        name:"",
-        age:"",
-        course:""
+        name: "",
+        age: "",
+        course: ""
     })
+
+    const { id } = useParams()
+    const studentdata = useSelector(data => data.students.list)
+    
 
     const naviget = useNavigate()
     const dispatch = useDispatch()
 
-    const handlechange = (e)=>{
-        setInput({...input, [e.target.id]: e.target.value})
-        console.log(input);
+
+    useEffect(()=>{
+        const data = studentdata.find((std)=>{
+            return std.id === id
+        })
+
+        if(!data){
+            naviget("/")
+            return
+        }
+
+        setInput(data)
+    }, [id])
+
+    const handlechange = (e) => {
+        setInput({ ...input, [e.target.id]: e.target.value })
     }
 
-    const handlesubmit = (e)=>{
-       e.preventDefault()
-        dispatch(addstudent(input));
+    const handleedit = (e) => {
+        e.preventDefault()
+        dispatch(editestudent(input));
         naviget("/")
     }
 
     return (
         <div className="container mx-auto h-screen flex items-center justify-center">
-            <form className="max-w-sm w-full dark:bg-gray-900 p-10 rounded-lg shadow-md" onSubmit={handlesubmit}>
+            <form className="max-w-sm w-full dark:bg-gray-900 p-10 rounded-lg shadow-md" onSubmit={handleedit}>
                 <h1 className="text-3xl text-center text-white pb-8">Student Management</h1>
 
                 <div className="mb-5">
@@ -34,7 +51,7 @@ const AddStudent = () => {
                         Your Name
                     </label>
                     <input
-                    value={input.name}
+                        value={input.name}
                         type="text"
                         id="name"
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
@@ -58,7 +75,7 @@ const AddStudent = () => {
                                    focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
                                    dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
                                    dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                   onChange={handlechange}
+                        onChange={handlechange}
                         required
                     />
                 </div>
@@ -82,11 +99,11 @@ const AddStudent = () => {
                                text-sm w-full sm:w-auto px-5 py-2.5 text-center 
                                dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 >
-                    Submit
+                    update
                 </button>
             </form>
         </div>
     )
 }
 
-export default AddStudent
+export default Editstudent
