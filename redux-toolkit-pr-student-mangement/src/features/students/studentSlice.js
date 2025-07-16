@@ -10,6 +10,7 @@ import { data } from "react-router-dom";
     reducers: {
         addstudent: (state, action) => {
             state.list.push({id: nanoid(), ...action.payload})
+            console.log({id: nanoid()});
         },
         deletestudent: (state, action) => {
             state.list = state.list.filter((std)=>{
