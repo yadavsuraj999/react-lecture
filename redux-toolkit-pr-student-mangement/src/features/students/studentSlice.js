@@ -1,6 +1,5 @@
 import { nanoid } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
-import { data } from "react-router-dom";
 
  const studentSlice = createSlice({
     name: "students",
