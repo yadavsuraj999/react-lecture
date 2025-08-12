@@ -6,14 +6,18 @@ import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
 import { db } from "./config/firebase";
 import { useEffect, useState } from "react";
+import { toast, ToastContainer } from 'react-toastify';
 
 
 function App() {
   const [animals, setAnimal] = useState([])
   const [animalId, setAnimalId] = useState(null)
+  const [error, serError] = useState({})
   const [input, setInput] = useState({
     name: "", species: "", age: ""
   })
+
+  let obj = {}
 
   useEffect(() => {
     fetch()
@@ -30,31 +34,31 @@ function App() {
     } catch (error) {
       console.log(alert(error));
     }
-
-  }
-
-  const handleEdit = async (id) => {
-    try {
-      await updateDoc(doc(db, "animals", animalId), input)
-    } catch (error) {
-      console.log(alert(error));
-    }
   }
 
 
   const handlesubmit = async (e) => {
     e.preventDefault();
+    if (input.name.trim() == "" || input.species.trim() == "" || input.age.trim() == "") {
+      toast.error("please enter all input filde")
+      return
+    }
 
     try {
-      await addDoc(collection(db, "animals"), input)
+      if (animalId) {
+        await updateDoc(doc(db, "animals", animalId), input)
+        setAnimalId(null)
+      } else {
+        await addDoc(collection(db, "animals"), input)
+      }
+
       fetch()
+      setInput({
+        name: "", species: "", age: ""
+      })
     } catch (err) {
       console.log(err);
     }
-
-    setInput({
-      name: "", species: "", age: ""
-    })
   }
 
   const fetch = async () => {
@@ -76,9 +80,10 @@ function App() {
         <Navbar />
         <div className="p-4 space-y-8">
           <Dashboard />
-          <AnimalList animals={animals} handleDelete={handleDelete} handleEdit={handleEdit} animalId={animalId} />
-          <AddAnimal handlesubmit={handlesubmit} handlechange={handlechange} input={input} />
+          <AnimalList animals={animals} handleDelete={handleDelete} setAnimalId={setAnimalId} setInput={setInput} />
+          <AddAnimal handlesubmit={handlesubmit} handlechange={handlechange} input={input} animalId={animalId} />
         </div>
+        <ToastContainer />
       </div>
     </div>
   );

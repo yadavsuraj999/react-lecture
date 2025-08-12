@@ -30,9 +30,9 @@ const StudentTable = () => {
 
 
     return (
-        <div>
+        <div className="bg-black h-screen w-screen position-absolute top-[-50">
             <div className="flex container mx-auto justify-between my-10 text-center">
-                <h1>Add Student....</h1>
+                <h1 className="text-4xl text-white">Add Student....</h1>
                 <button type="button" className="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900" onClick={() => { handleclick() }}> + Add Student</button>
             </div>
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg container mx-auto my-10">

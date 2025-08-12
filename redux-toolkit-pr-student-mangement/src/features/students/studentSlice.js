@@ -25,6 +25,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
             state.list[idx] = {id, ...data}
         },
+        
     }
 })
 

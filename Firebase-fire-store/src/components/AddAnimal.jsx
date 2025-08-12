@@ -1,8 +1,4 @@
-import { useState } from "react";
-import { collection, addDoc } from "firebase/firestore";
-import { db } from "../config/firebase";
-
-const AddAnimal = ({handlesubmit, handlechange, input}) => { 
+const AddAnimal = ({handlesubmit, handlechange, input, animalId}) => { 
 
   return (
     <div className="p-6">
@@ -11,7 +7,7 @@ const AddAnimal = ({handlesubmit, handlechange, input}) => {
         <input type="text" id="name" value={input.name} placeholder="Name" className="w-full border px-3 py-2 rounded" onChange={handlechange}/>
         <input type="text" id="species" value={input.species} placeholder="Species" className="w-full border px-3 py-2 rounded" onChange={handlechange}/>
         <input type="number" id="age" value={input.age} placeholder="Age" className="w-full border px-3 py-2 rounded" onChange={handlechange}/>
-        <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Add Animal</button>
+        <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">{animalId ? "Edit Animal" : "Add Animal"}</button>
       </form>
     </div>
   );

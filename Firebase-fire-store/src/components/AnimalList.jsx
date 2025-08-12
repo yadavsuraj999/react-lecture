@@ -1,6 +1,4 @@
-const AnimalList = ({animals, handleDelete, handelEdit}) => {
-
-  console.log(handleDelete);
+const AnimalList = ({animals, handleDelete, setAnimalId, setInput}) => {
    return (
     <div className="p-6">
       <h2 className="text-2xl font-semibold mb-4">Animal List</h2>
@@ -22,7 +20,14 @@ const AnimalList = ({animals, handleDelete, handelEdit}) => {
                   <td className="py-2 px-4 border-b">{animal.species}</td>
                   <td className="py-2 px-4 border-b">{animal.age}</td>
                   <td className="py-2 px-4 border-b flex gap-5">
-                    <button className="text-yellow-500" onClick={()=>handelEdit()} >Edit</button>
+                    <button className="text-yellow-500" onClick={()=>{
+                      setInput({
+                        name: animal.name,
+                        species: animal.species,
+                        age: animal.age
+                      })
+                      setAnimalId(animal.id)
+                    }} >Edit</button>
                     <button className="text-red-600" onClick={()=>handleDelete(animal.id)}>Delete</button>
                   </td>
                 </tr>
