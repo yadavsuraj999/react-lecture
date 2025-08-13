@@ -12,12 +12,12 @@ import { toast, ToastContainer } from 'react-toastify';
 function App() {
   const [animals, setAnimal] = useState([])
   const [animalId, setAnimalId] = useState(null)
-  const [error, serError] = useState({})
+  // const [error, serError] = useState({})
   const [input, setInput] = useState({
     name: "", species: "", age: ""
   })
 
-  let obj = {}
+  // let obj = {}
 
   useEffect(() => {
     fetch()
@@ -80,8 +80,8 @@ function App() {
         <Navbar />
         <div className="p-4 space-y-8">
           <Dashboard />
-          <AnimalList animals={animals} handleDelete={handleDelete} setAnimalId={setAnimalId} setInput={setInput} />
           <AddAnimal handlesubmit={handlesubmit} handlechange={handlechange} input={input} animalId={animalId} />
+          <AnimalList animals={animals} handleDelete={handleDelete} setAnimalId={setAnimalId} setInput={setInput} />
         </div>
         <ToastContainer />
       </div>

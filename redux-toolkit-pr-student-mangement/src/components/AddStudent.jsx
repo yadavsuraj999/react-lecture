@@ -1,7 +1,7 @@
-import { useState } from "react"
-import { useDispatch } from "react-redux"
+import { useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
-import { addstudent } from "../features/students/studentSlice"
+import { addstudent, editStudent, setIsEdit } from "../features/students/studentSlice"
 
 const AddStudent = () => {
     const [input, setInput] = useState({
@@ -9,15 +9,22 @@ const AddStudent = () => {
         age: "",
         course: ""
     })
+    const { list, isEdit } = useSelector((store) => store.students)
 
+    useEffect(() => {
+        if (isEdit) {
+            const foundStudent = list.find((std) => {
+                return std.id == isEdit
+            })
+            setInput(foundStudent)
+        }
+    }, [])
 
-    
     const naviget = useNavigate()
     const dispatch = useDispatch()
 
     const handlechange = (e) => {
         setInput({ ...input, [e.target.id]: e.target.value })
-        console.log(input);
     }
 
     const handlesubmit = (e) => {
@@ -26,10 +33,17 @@ const AddStudent = () => {
         naviget("/")
     }
 
+    const handleEdit = (e) => {
+        e.preventDefault()
+        dispatch(editStudent({ isEdit, input }))
+        naviget("/")
+        dispatch(setIsEdit(null))
+    }
+
     return (
         <section className="bg-black h-screen w-screen">
             <div className="container mx-auto h-screen flex items-center justify-center">
-                <form className="max-w-sm w-full dark:bg-gray-900 p-10 rounded-lg shadow-md" onSubmit={handlesubmit}>
+                <form className="max-w-sm w-full dark:bg-gray-900 p-10 rounded-lg shadow-md" onSubmit={isEdit ? handleEdit : handlesubmit}>
                     <h1 className="text-3xl text-center text-white pb-8">Student Management</h1>
 
                     <div className="mb-5">
@@ -85,7 +99,7 @@ const AddStudent = () => {
                                text-sm w-full sm:w-auto px-5 py-2.5 text-center 
                                dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                     >
-                        Submit
+                        {isEdit ? "Update Student" : "Submit"}
                     </button>
                 </form>
             </div>

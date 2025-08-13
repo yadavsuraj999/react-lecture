@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux"
 import { Link, useNavigate } from "react-router-dom"
-import { deletestudent } from "../features/students/studentSlice"
+import { deletestudent, editStudent, setIsEdit } from "../features/students/studentSlice"
 
 const StudentTable = () => {
 
@@ -13,6 +13,13 @@ const StudentTable = () => {
     }
     const handledelete = (id)=>{
         dispatch(deletestudent(id))
+    }
+
+    const handleEdit = (id)=>{
+        naviget("add-student")
+        // dispatch(editStudent(id))
+        dispatch(setIsEdit(id))
+        
     }
 
     const getcourse = (course)=>{
@@ -66,7 +73,7 @@ const StudentTable = () => {
                                     {getcourse(Number(std.course))}
                                 </td>
                                 <td className="px-6 py-4 text-right flex gap-4">
-                                    <Link to={`/edit-student/${std.id}`} className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</Link>
+                                    <button onClick={()=> handleEdit(std.id)}  className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</button>
                                     <a href="#" className="font-medium text-red-600 dark:text-red-500 hover:underline" onClick={()=>{
                                         handledelete(std.id)
                                     }}>delete</a>
